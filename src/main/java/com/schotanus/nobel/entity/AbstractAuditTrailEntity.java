@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
 
 
 /**
@@ -18,8 +17,11 @@ public abstract class AbstractAuditTrailEntity extends AbstractEntity {
     @Column(name = "modifiedby")
     private Long modifiedBy;
 
-    @Column(name = "modifiedat")
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    /**
+     * Determines at which time this entity has been created/changed.
+     * Note the "insertable = false", without it a null value will be inserted.
+     */
+    @Column(name = "modifiedat", insertable = false, updatable = false)
     private Date modifiedAt;
 
     AbstractAuditTrailEntity() {
