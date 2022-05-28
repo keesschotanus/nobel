@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class UserAccount extends AbstractAuditTrailEntity {
     
     @Column
-    private boolean active;
+    private boolean active = true;
 
     @Column(length = 60)
     private String name;
@@ -78,13 +78,12 @@ public class UserAccount extends AbstractAuditTrailEntity {
 
     @Override
     public boolean equals(final Object other) {
-  
-        if (this == other) {
+          if (this == other) {
           return true;
         }
       
         if (super.equals(other) && other instanceof UserAccount account) {
-            return this.active == account.active
+            return super.equals(other) && this.active == account.active
                 && Objects.equals(this.name, account.name)
                 && Objects.equals(this.password, account.password)
                 && Objects.equals(this.salt, account.salt)

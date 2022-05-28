@@ -6,6 +6,8 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import com.schotanus.util.DateUtil;
+
 
 /**
  * Entity that allows tracking of the creation and last modification date.
@@ -46,8 +48,9 @@ public abstract class AbstractAuditTrailEntity extends AbstractEntity {
 
     @Override
     public String toString() {
-        return String.format("%s:id=%d,version=%d,modifiedBy=%d,modifiedAt=%tc",
-            this.getClass().getSimpleName(), this.id, this.version, this.modifiedBy, this.modifiedAt);
+        return String.format("%s:id=%d,version=%d,modifiedBy=%d,modifiedAt=%s",
+            this.getClass().getSimpleName(), this.id, this.version, this.modifiedBy,
+            DateUtil.dateToIsoDateTime(this.modifiedAt));
     }
 
     /**
