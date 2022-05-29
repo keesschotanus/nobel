@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 
 /**
- * Abstraction of a country.
+ * ISO-3166 country.
  */
 @Entity
 @Table(name = "Countries")
@@ -66,6 +66,9 @@ public class Country {
             this.getClass().getSimpleName(), this.id, this.name, this.nationality);
     }
 
+    /**
+     * Since the id is not generated, it is the ony field used to check for equality.
+     */
     @Override
     public boolean equals(final Object other) {
         if (this == other) {

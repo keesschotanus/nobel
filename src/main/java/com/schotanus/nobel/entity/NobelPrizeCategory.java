@@ -9,35 +9,35 @@ import javax.persistence.Table;
 
 
 /**
- * ISO-639 Language.
+ * Category for which one can win a Nobel prize.
  */
 @Entity
-@Table(name = "Languages")
-public class Language {
-    
+@Table(name = "Nobelprizecategories")
+public class NobelPrizeCategory {   
+
     /**
-     * The id should be an ISO 639-1 code.
+     * The id of this category.
      */
     @Id
-    private String id;
+    private char id;
 
     @Column(length = 50, nullable = false)
     private String description;
 
-    public Language() {
+    public NobelPrizeCategory() {
         // As required by JPA framework.
     }
 
-    public Language(final String id, final String description) {
+    public NobelPrizeCategory(final char id, final String description) {
         this.id = id;
         this.description = description;
     }
 
-    public String getId() {
+    public char getId() {
         return id;
     }
 
-    public void setId(final String id) {
+    public void setId(final char id) {
         this.id = id;
     }
 
@@ -50,7 +50,7 @@ public class Language {
     }
 
     public String toString() {
-        return String.format("%s:id=%s,description=%s",
+        return String.format("%s:id=%c,description=%s",
             this.getClass().getSimpleName(), this.id, this.description);
     }
 
@@ -63,8 +63,8 @@ public class Language {
           return true;
         }
       
-        if (other instanceof Language language) {
-            return this.id == language.id;
+        if (other instanceof NobelPrizeCategory nobelPrizeCategory ) {
+            return this.id == nobelPrizeCategory.id;
         }
 
         return false;
@@ -74,5 +74,6 @@ public class Language {
     public int hashCode() {
       return Objects.hash(this.id);
     }
+
 
 }

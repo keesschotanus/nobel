@@ -10,10 +10,10 @@ import javax.persistence.Table;
 
 
 /**
- * Entity used for translations of text in columns.
+ * Translation entity to support translations of text in columns.
  */
 @Entity
-@Table(name = "translations")
+@Table(name = "Translations")
 public class Translation extends AbstractEntity {
     @Column(name = "tablename", length = 50)
     private String tableName;

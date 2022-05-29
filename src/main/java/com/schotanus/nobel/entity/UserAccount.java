@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 
 /**
- * Abstraction of an account a user has, to access the application.
+ * Account a user has, to access the application.
  */
 @Entity
 @Table(name = "Useraccounts")
@@ -83,7 +83,7 @@ public class UserAccount extends AbstractAuditTrailEntity {
         }
       
         if (super.equals(other) && other instanceof UserAccount account) {
-            return super.equals(other) && this.active == account.active
+            return this.active == account.active
                 && Objects.equals(this.name, account.name)
                 && Objects.equals(this.password, account.password)
                 && Objects.equals(this.salt, account.salt)

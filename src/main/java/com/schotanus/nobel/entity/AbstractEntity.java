@@ -10,7 +10,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 
 /**
- * Abstraction of an entity that uses a generated id and a version.
+ * Entity that uses a generated id and a version.
  */
 @MappedSuperclass
 public abstract class AbstractEntity {
