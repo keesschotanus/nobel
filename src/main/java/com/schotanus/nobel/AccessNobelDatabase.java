@@ -86,7 +86,10 @@ public class AccessNobelDatabase {
     CommandLineRunner accessDatabaseScientists(ScientistRepository repository) {
         return args -> {
             log.info("Scientists:");
-            repository.findAll().forEach(scientist -> log.info(scientist.toString()));
+            repository.findAll().forEach(scientist -> {
+                log.info(scientist.toString());
+                scientist.getNationalities().forEach(nationality -> log.info(nationality.toString()));
+            });
         };
     }
 

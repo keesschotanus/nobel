@@ -1,12 +1,15 @@
 package com.schotanus.nobel.entity;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -40,6 +43,9 @@ public class Scientist extends AbstractAuditTrailEntity {
 
     @Column(name = "wikipediaurl", length = 256)
     private String wikipediaUrl;
+
+    @OneToMany(mappedBy = "scientistId", fetch = FetchType.EAGER)
+    private List<ScientistNationality> nationalities;
 
     public Scientist() {
         // As required by JPA framework.
@@ -105,6 +111,10 @@ public class Scientist extends AbstractAuditTrailEntity {
 
     public void setWikipediaUrl(final String wikipediaUrl) {
         this.wikipediaUrl = wikipediaUrl;
+    }
+
+    public List<ScientistNationality> getNationalities() {
+        return nationalities;
     }
 
     @Override
