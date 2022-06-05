@@ -6,6 +6,7 @@ import com.schotanus.nobel.entity.UserAccount;
 import com.schotanus.nobel.repository.CountryRepository;
 import com.schotanus.nobel.repository.LanguageRepository;
 import com.schotanus.nobel.repository.NobelPrizeCategoryRepository;
+import com.schotanus.nobel.repository.NobelPrizeRepository;
 import com.schotanus.nobel.repository.ScientistRepository;
 import com.schotanus.nobel.repository.TranslationRepository;
 import com.schotanus.nobel.repository.UserAccountRepository;
@@ -88,9 +89,23 @@ public class AccessNobelDatabase {
             log.info("Scientists:");
             repository.findAll().forEach(scientist -> {
                 log.info(scientist.toString());
+                log.info("Scientist Nationalities:");
                 scientist.getNationalities().forEach(nationality -> log.info(nationality.toString()));
+                log.info("Scientist Nobel Prizes:");
+                scientist.getNobelPrizes().forEach(nobelPrize -> log.info(nobelPrize.toString()));
             });
         };
     }
 
+    @Bean
+    CommandLineRunner accessDatabaseNobelPrizes(NobelPrizeRepository repository) {
+        return args -> {
+            log.info("Nobel Prizes:");
+            repository.findAll().forEach(nobelPrize -> {
+                log.info(nobelPrize.toString());
+                log.info("Nobel Prize Scientists:");
+                nobelPrize.getScientists().forEach(scientist -> log.info(scientist.toString()));
+            });
+        };
+    }
 }

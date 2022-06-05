@@ -18,7 +18,7 @@ public class UserAccount extends AbstractAuditTrailEntity {
     @Column
     private boolean active = true;
 
-    @Column(length = 60)
+    @Column(length = 60, unique = true)
     private String name;
 
     @Column(length = 50)

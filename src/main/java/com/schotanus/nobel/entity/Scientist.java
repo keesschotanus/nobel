@@ -3,11 +3,14 @@ package com.schotanus.nobel.entity;
 import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -46,6 +49,12 @@ public class Scientist extends AbstractAuditTrailEntity {
 
     @OneToMany(mappedBy = "scientistId", fetch = FetchType.EAGER)
     private List<ScientistNationality> nationalities;
+
+    // Uses a set to avoid: MultipleBagFetchException - cannot simultaneously fetch multiple bags
+    // In the future lazy loading will be used or @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "NobelPrizeLaureates", joinColumns = @JoinColumn(name = "scientistid"), inverseJoinColumns = @JoinColumn(name = "nobelprizeid"))
+    private Set<NobelPrize> nobelPrizes;
 
     public Scientist() {
         // As required by JPA framework.
@@ -115,6 +124,18 @@ public class Scientist extends AbstractAuditTrailEntity {
 
     public List<ScientistNationality> getNationalities() {
         return nationalities;
+    }
+
+    public void setNationalities(final List<ScientistNationality> nationalities) {
+        this.nationalities = nationalities;
+    }
+
+    public Set<NobelPrize> getNobelPrizes() {
+        return nobelPrizes;
+    }
+
+    public void setNobelPrizes(final Set<NobelPrize> nobelPrizes) {
+        this.nobelPrizes = nobelPrizes;
     }
 
     @Override

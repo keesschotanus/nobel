@@ -1,10 +1,13 @@
 package com.schotanus.nobel.entity;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -24,6 +27,9 @@ public class NobelPrize extends AbstractAuditTrailEntity {
 
     @Column(name = "nobelurl", length = 256, nullable = true)
     private String nobelUrl;
+
+    @ManyToMany(mappedBy = "nobelPrizes", fetch = FetchType.EAGER)
+    private List<Scientist> scientists;
 
     public NobelPrizeCategory getCategory() {
         return nobelPrizeCategory;
@@ -47,6 +53,14 @@ public class NobelPrize extends AbstractAuditTrailEntity {
 
     public void setNobelUrl(String nobelUrl) {
         this.nobelUrl = nobelUrl;
+    }
+
+    public List<Scientist> getScientists() {
+        return scientists;
+    }
+
+    public void setScientists(final List<Scientist> scientists) {
+        this.scientists = scientists;
     }
 
     @Override
