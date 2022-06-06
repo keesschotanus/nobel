@@ -6,23 +6,28 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
+
 /**
  * A Nobel prize.
  */
 @Entity
-@Table(name = "Nobelprizes")
+@Table(name = "Nobelprizes", indexes = {
+    @Index(name = "np_year_cat_u", columnList = "year,categoryId", unique = true)
+})
 public class NobelPrize extends AbstractAuditTrailEntity {
 
     @ManyToOne()
     @JoinColumn(name = "categoryid", referencedColumnName = "id")
     private NobelPrizeCategory nobelPrizeCategory;
 
-    @Column(name = "year", nullable = false)
+    @Column(name = "year", nullable = false, unique = true)
     private int year;
 
     @Column(name = "nobelurl", length = 256, nullable = true)

@@ -1,7 +1,9 @@
 package com.schotanus.nobel;
 
+import java.util.List;
 import java.util.UUID;
 
+import com.schotanus.nobel.entity.NobelPrize;
 import com.schotanus.nobel.entity.UserAccount;
 import com.schotanus.nobel.repository.CountryRepository;
 import com.schotanus.nobel.repository.LanguageRepository;
@@ -11,6 +13,7 @@ import com.schotanus.nobel.repository.NobelPrizeRepository;
 import com.schotanus.nobel.repository.ScientistRepository;
 import com.schotanus.nobel.repository.TranslationRepository;
 import com.schotanus.nobel.repository.UserAccountRepository;
+import com.schotanus.nobel.service.NobelServiceImpl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,10 +114,22 @@ public class AccessNobelDatabase {
     }
 
     @Bean
+    CommandLineRunner accessNobelService(NobelServiceImpl service) {
+        return args -> {
+            log.info("Fetch nobel prize using service:");
+            List<NobelPrize> nobelPrizes = service.getNobelPrizes(1801);
+            for (NobelPrize nobelPrize : nobelPrizes) {
+                log.info("{}", nobelPrize);
+            }
+        };
+    }
+
+    @Bean
     CommandLineRunner accessDatabaseNobelPrizeLaureates(NobelPrizeLaureateRepository repository) {
         return args -> {
             log.info("Nobel Prize Laureates:");
             repository.findAll().forEach(nobelPrizeLaureate -> log.info(nobelPrizeLaureate.toString()));
         };
     }
+
 }
