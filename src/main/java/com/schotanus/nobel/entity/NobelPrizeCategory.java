@@ -28,6 +28,10 @@ public class NobelPrizeCategory {
         // As required by JPA framework.
     }
 
+    public NobelPrizeCategory(final char id) {
+        this(id, "");
+    }
+
     public NobelPrizeCategory(final char id, final String description) {
         this.id = id;
         this.description = description;

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.schotanus.nobel.entity.NobelPrize;
+import com.schotanus.nobel.entity.NobelPrizeCategory;
 import com.schotanus.nobel.entity.UserAccount;
 import com.schotanus.nobel.repository.CountryRepository;
 import com.schotanus.nobel.repository.LanguageRepository;
@@ -114,13 +115,22 @@ public class AccessNobelDatabase {
     }
 
     @Bean
-    CommandLineRunner accessNobelService(NobelServiceImpl service) {
+    CommandLineRunner accessNobelServiceByYear(NobelServiceImpl service) {
         return args -> {
-            log.info("Fetch nobel prize using service:");
+            log.info("Fetch nobel prizes by year using service:");
             List<NobelPrize> nobelPrizes = service.getNobelPrizes(1801);
             for (NobelPrize nobelPrize : nobelPrizes) {
                 log.info("{}", nobelPrize);
             }
+        };
+    }
+
+    @Bean
+    CommandLineRunner accessNobelServiceByYearAndCategory(NobelServiceImpl service) {
+        return args -> {
+            log.info("Fetch nobel prize by year and category using service:");
+            NobelPrize nobelPrize = service.getNobelPrize(1801, new NobelPrizeCategory('1'));
+            log.info("{}", nobelPrize);
         };
     }
 

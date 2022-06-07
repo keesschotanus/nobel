@@ -25,7 +25,7 @@ public class NobelPrize extends AbstractAuditTrailEntity {
 
     @ManyToOne()
     @JoinColumn(name = "categoryid", referencedColumnName = "id")
-    private NobelPrizeCategory nobelPrizeCategory;
+    private NobelPrizeCategory category;
 
     @Column(name = "year", nullable = false, unique = true)
     private int year;
@@ -37,11 +37,11 @@ public class NobelPrize extends AbstractAuditTrailEntity {
     private List<Scientist> scientists;
 
     public NobelPrizeCategory getCategory() {
-        return nobelPrizeCategory;
+        return category;
     }
 
-    public void setCategory(final NobelPrizeCategory nobelPrizeCategory) {
-        this.nobelPrizeCategory = nobelPrizeCategory;
+    public void setCategory(final NobelPrizeCategory category) {
+        this.category = category;
     }
 
     public int getYear() {
@@ -71,7 +71,7 @@ public class NobelPrize extends AbstractAuditTrailEntity {
     @Override
     public String toString() {
         return String.format("%s:cat=%c,year=%d,url=%s",
-            super.toString(), this.nobelPrizeCategory.getId(), this.year, this.nobelUrl);
+            super.toString(), this.category.getId(), this.year, this.nobelUrl);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class NobelPrize extends AbstractAuditTrailEntity {
         }
       
         if (super.equals(other) && other instanceof NobelPrize nobelPrize) {
-            return Objects.equals(this.nobelPrizeCategory.getId(), nobelPrize.nobelPrizeCategory.getId())
+            return Objects.equals(this.category.getId(), nobelPrize.category.getId())
                 && Objects.equals(this.year, nobelPrize.year)
                 && Objects.equals(this.nobelUrl, nobelPrize.nobelUrl);
         }
@@ -91,7 +91,7 @@ public class NobelPrize extends AbstractAuditTrailEntity {
   
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), this.nobelPrizeCategory.getId(), this.year, this.nobelUrl);
+        return Objects.hash(super.hashCode(), this.category.getId(), this.year, this.nobelUrl);
     }
 
 }
