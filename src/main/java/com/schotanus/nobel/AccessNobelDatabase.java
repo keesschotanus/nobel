@@ -5,13 +5,12 @@ import java.util.UUID;
 
 import com.schotanus.nobel.entity.NobelPrize;
 import com.schotanus.nobel.entity.NobelPrizeCategory;
+import com.schotanus.nobel.entity.Scientist;
 import com.schotanus.nobel.entity.UserAccount;
 import com.schotanus.nobel.repository.CountryRepository;
 import com.schotanus.nobel.repository.LanguageRepository;
 import com.schotanus.nobel.repository.NobelPrizeCategoryRepository;
 import com.schotanus.nobel.repository.NobelPrizeLaureateRepository;
-import com.schotanus.nobel.repository.NobelPrizeRepository;
-import com.schotanus.nobel.repository.ScientistRepository;
 import com.schotanus.nobel.repository.TranslationRepository;
 import com.schotanus.nobel.repository.UserAccountRepository;
 import com.schotanus.nobel.service.NobelServiceImpl;
@@ -89,27 +88,26 @@ public class AccessNobelDatabase {
     }
 
     @Bean
-    CommandLineRunner accessDatabaseScientists(ScientistRepository repository) {
+    CommandLineRunner accessDatabaseScientists(NobelServiceImpl service) {
         return args -> {
             log.info("Scientists:");
-            repository.findAll().forEach(scientist -> {
+            List<Scientist> scientists = service.getScientists();
+            scientists.forEach(scientist -> {
                 log.info(scientist.toString());
-                log.info("Scientist Nationalities:");
                 scientist.getNationalities().forEach(nationality -> log.info(nationality.toString()));
-                log.info("Scientist Nobel Prizes:");
                 scientist.getNobelPrizes().forEach(nobelPrize -> log.info(nobelPrize.toString()));
             });
         };
     }
 
     @Bean
-    CommandLineRunner accessDatabaseNobelPrizes(NobelPrizeRepository repository) {
+    CommandLineRunner accessDatabaseNobelPrizes(NobelServiceImpl service) {
         return args -> {
             log.info("Nobel Prizes:");
-            repository.findAll().forEach(nobelPrize -> {
+            List<NobelPrize> nobelPrizes = service.getNobelPrizes();
+            nobelPrizes.forEach(nobelPrize -> {
                 log.info(nobelPrize.toString());
-                log.info("Nobel Prize Scientists:");
-                nobelPrize.getScientists().forEach(scientist -> log.info(scientist.toString()));
+                nobelPrize.getScientists().forEach(laureate -> log.info(laureate.toString()));
             });
         };
     }

@@ -33,7 +33,7 @@ public class NobelPrize extends AbstractAuditTrailEntity {
     @Column(name = "nobelurl", length = 256, nullable = true)
     private String nobelUrl;
 
-    @ManyToMany(mappedBy = "nobelPrizes", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "nobelPrizes", fetch = FetchType.LAZY)
     private List<Scientist> scientists;
 
     public NobelPrizeCategory getCategory() {

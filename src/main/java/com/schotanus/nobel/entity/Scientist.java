@@ -47,12 +47,10 @@ public class Scientist extends AbstractAuditTrailEntity {
     @Column(name = "wikipediaurl", length = 256)
     private String wikipediaUrl;
 
-    @OneToMany(mappedBy = "scientistId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "scientistId", fetch = FetchType.LAZY)
     private List<ScientistNationality> nationalities;
 
-    // Uses a set to avoid: MultipleBagFetchException - cannot simultaneously fetch multiple bags
-    // In the future lazy loading will be used or @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "NobelPrizeLaureates", joinColumns = @JoinColumn(name = "scientistid"), inverseJoinColumns = @JoinColumn(name = "nobelprizeid"))
     private Set<NobelPrize> nobelPrizes;
 
