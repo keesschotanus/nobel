@@ -2,6 +2,9 @@ package com.schotanus.nobel.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,9 @@ public class NobelServiceImpl implements NobelService {
 
     @Autowired
     NobelPrizeRepository nobelPrizeRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     ScientistRepository scientistRepository;
@@ -41,12 +47,16 @@ public class NobelServiceImpl implements NobelService {
         return scientists;
     }
 
-    @Transactional
+    /**
+     * Fetches all Nobel prizes plus the Scientists that won them.
+     * @return All Nobel prizes, including the prizes that have not yet been won by a Scientist.
+     */
+    @Transactional()
     public List<NobelPrize> getNobelPrizes() {
-        List<NobelPrize> nobelPrizes = nobelPrizeRepository.findAll();
-        nobelPrizes.forEach(nobelPrize -> nobelPrize.getScientists().forEach(scientist -> {}));
-
-        return nobelPrizes;
+        final String sql = "SELECT np FROM NobelPrize np LEFT JOIN FETCH np.scientists";
+        TypedQuery<NobelPrize> query = this.entityManager.createQuery(sql, NobelPrize.class);
+        
+        return query.getResultList();
     }
 
 }
