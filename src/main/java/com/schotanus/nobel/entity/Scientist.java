@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 
 /**
- * Abstraction of a scientist, which at this time simply resembles a person.
+ * Abstraction of a scientist.
  */
 @Entity
 @Table(name = "Scientists")

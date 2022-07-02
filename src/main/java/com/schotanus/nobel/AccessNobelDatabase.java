@@ -13,7 +13,8 @@ import com.schotanus.nobel.repository.NobelPrizeCategoryRepository;
 import com.schotanus.nobel.repository.NobelPrizeLaureateRepository;
 import com.schotanus.nobel.repository.TranslationRepository;
 import com.schotanus.nobel.repository.UserAccountRepository;
-import com.schotanus.nobel.service.NobelServiceImpl;
+import com.schotanus.nobel.service.NobelService;
+import com.schotanus.nobel.service.ScientistService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,6 @@ public class AccessNobelDatabase {
 
             log.info("Languages:");
             repository.findAll().forEach(language -> log.info(language.toString()));
-
         };
     }
  
@@ -88,20 +88,29 @@ public class AccessNobelDatabase {
     }
 
     @Bean
-    CommandLineRunner accessDatabaseScientists(NobelServiceImpl service) {
+    CommandLineRunner accessDatabaseScientists(ScientistService service) {
         return args -> {
             log.info("Scientists:");
             List<Scientist> scientists = service.getScientists();
             scientists.forEach(scientist -> {
                 log.info(scientist.toString());
-                scientist.getNationalities().forEach(nationality -> log.info(nationality.toString()));
                 scientist.getNobelPrizes().forEach(nobelPrize -> log.info(nobelPrize.toString()));
             });
         };
     }
 
     @Bean
-    CommandLineRunner accessDatabaseNobelPrizes(NobelServiceImpl service) {
+    CommandLineRunner accessDatabaseScientist(ScientistService service) {
+        return args -> {
+            log.info("Single scientist:");
+            Scientist scientist = service.getScientist(1L);
+            log.info(scientist.toString());
+            scientist.getNobelPrizes().forEach(nobelPrize -> log.info(nobelPrize.toString()));
+        };
+    }
+
+    @Bean
+    CommandLineRunner accessDatabaseNobelPrizes(NobelService service) {
         return args -> {
             log.info("Nobel Prizes:");
             List<NobelPrize> nobelPrizes = service.getNobelPrizes();
@@ -113,7 +122,7 @@ public class AccessNobelDatabase {
     }
 
     @Bean
-    CommandLineRunner accessNobelServiceByYear(NobelServiceImpl service) {
+    CommandLineRunner accessNobelServiceByYear(NobelService service) {
         return args -> {
             log.info("Fetch nobel prizes by year using service:");
             List<NobelPrize> nobelPrizes = service.getNobelPrizes(1801);
@@ -124,7 +133,7 @@ public class AccessNobelDatabase {
     }
 
     @Bean
-    CommandLineRunner accessNobelServiceByYearAndCategory(NobelServiceImpl service) {
+    CommandLineRunner accessNobelServiceByYearAndCategory(NobelService service) {
         return args -> {
             log.info("Fetch nobel prize by year and category using service:");
             NobelPrize nobelPrize = service.getNobelPrize(1801, new NobelPrizeCategory('1'));
