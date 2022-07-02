@@ -51,8 +51,9 @@ public class Scientist extends AbstractAuditTrailEntity {
     private List<ScientistNationality> nationalities;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "NobelPrizeLaureates", joinColumns = @JoinColumn(name = "scientistid"), inverseJoinColumns = @JoinColumn(name = "nobelprizeid"))
-    private Set<NobelPrize> nobelPrizes;
+    @JoinTable(name = "NobelPrizeLaureates", joinColumns = @JoinColumn(name = "scientistid", referencedColumnName="id"),
+     inverseJoinColumns = @JoinColumn(name = "nobelprizeid", referencedColumnName = "id"))
+    private List<NobelPrize> nobelPrizes;
 
     public Scientist() {
         // As required by JPA framework.
@@ -128,11 +129,11 @@ public class Scientist extends AbstractAuditTrailEntity {
         this.nationalities = nationalities;
     }
 
-    public Set<NobelPrize> getNobelPrizes() {
+    public List<NobelPrize> getNobelPrizes() {
         return nobelPrizes;
     }
 
-    public void setNobelPrizes(final Set<NobelPrize> nobelPrizes) {
+    public void setNobelPrizes(final List<NobelPrize> nobelPrizes) {
         this.nobelPrizes = nobelPrizes;
     }
 

@@ -12,6 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 /**
@@ -33,6 +35,7 @@ public class NobelPrize extends AbstractAuditTrailEntity {
     @Column(name = "nobelurl", length = 256, nullable = true)
     private String nobelUrl;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "nobelPrizes", fetch = FetchType.LAZY)
     private List<Scientist> scientists;
 
